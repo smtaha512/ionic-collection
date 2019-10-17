@@ -17,7 +17,19 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "segments": [
+        "dist/segments"
+      ],
+      "segments/*": [
+        "dist/segments/*"
+      ],
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "@ionic/angular": ["./node_modules/@ionic/angular"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

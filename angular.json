@@ -119,6 +119,41 @@
           }
         }
       }
+    },
+    "segments": {
+      "projectType": "library",
+      "root": "projects/segments",
+      "sourceRoot": "projects/segments/src",
+      "prefix": "ionic",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/segments/tsconfig.lib.json",
+            "project": "projects/segments/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/segments/src/test.ts",
+            "tsConfig": "projects/segments/tsconfig.spec.json",
+            "karmaConfig": "projects/segments/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/segments/tsconfig.lib.json",
+              "projects/segments/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "ionic-collection"
 }
