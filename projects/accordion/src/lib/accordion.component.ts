@@ -30,8 +30,9 @@ export class AccordionComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.defaultShow.isFirstChange) {
-      this.__show = changes.defaultShow.currentValue;
+    if (!(changes.defaultShow && changes.defaultShow.isFirstChange)) {
+      return;
     }
+    this.__show = changes.defaultShow.currentValue;
   }
 }
