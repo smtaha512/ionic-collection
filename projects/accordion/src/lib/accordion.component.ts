@@ -1,19 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'ionic-accordion',
   template: `
-    <p>
-      accordion works!
-    </p>
+    <ion-list>
+      <ionic-accordion-header
+        (headerClicked)="__show = !__show"
+        [iconName]="'arrow-' + (__show ? 'up' : 'down')"
+        [show]="__show"
+        [title]="title"
+        [iconMode]="collapseIconMode"
+      >
+      </ionic-accordion-header>
+      <ng-container *ngIf="__show">
+        <ng-content></ng-content>
+      </ng-container>
+    </ion-list>
   `,
-  styles: []
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccordionComponent implements OnInit {
+export class AccordionComponent implements OnChanges {
+  @Input() title: string;
+  @Input() defaultShow: boolean;
+  @Input() collapseIconMode: 'ios' | 'md';
 
-  constructor() { }
+  // tslint:disable-next-line: variable-name
+  __show: boolean;
+  constructor() {}
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.defaultShow.isFirstChange) {
+      this.__show = changes.defaultShow.currentValue;
+    }
   }
-
 }
