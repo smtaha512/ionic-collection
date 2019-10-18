@@ -5,15 +5,9 @@ import { Segments, Segment } from './segments.interface';
 @Component({
   selector: 'ionic-segments',
   template: `
-    <ion-segment
-      mode="ios"
-      [scrollable]="scrollable"
-      class="m-3"
-      (ionChange)="selectedSegmentChange.emit($event.detail.value)"
-      [value]="segments[defaultSelectedIndex].value"
-    >
-      <ion-segment-button [mode]="mode" *ngFor="let segment of segments; let i = index; trackBy: trackBy" [value]="segment?.value">
-        <ion-label style="font-size: 10px">{{ segment?.text }}</ion-label>
+    <ion-segment (ionChange)="selectedSegmentChange.emit($event.detail.value)" [value]="segments[defaultSelectedIndex].value">
+      <ion-segment-button *ngFor="let segment of segments; let i = index; trackBy: trackBy" [value]="segment?.value">
+        <ion-label>{{ segment?.text }}</ion-label>
       </ion-segment-button>
     </ion-segment>
   `,
