@@ -28,7 +28,15 @@
       "@angular/*": [
         "./node_modules/@angular/*"
       ],
-      "@ionic/angular": ["./node_modules/@ionic/angular"]
+      "@ionic/angular": [
+        "./node_modules/@ionic/angular"
+      ],
+      "accordion": [
+        "dist/accordion"
+      ],
+      "accordion/*": [
+        "dist/accordion/*"
+      ]
     }
   },
   "angularCompilerOptions": {
