@@ -1,24 +1,58 @@
 # Segments
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.3.
+`ionic-segments` is a wrapper over `ion-segment` to avoid repetative use of `ion-segment`, `ion-segment-button` and `ion-label`.
 
-## Code scaffolding
+`ionic-segments` is useful when you have simple and similar content in all segments.
 
-Run `ng generate component component-name --project segments` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project segments`.
-> Note: Don't forget to add `--project segments` or else it will be added to the default project in your `angular.json` file. 
+## How to use
 
-## Build
+1. Install `@ionic-collection/segments`.
 
-Run `ng build segments` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm i @ionic-collection/segments
+```
 
-## Publishing
+2. Add `SegmentsModule` to NgModule.
 
-After building your library with `ng build segments`, go to the dist folder `cd dist/segments` and run `npm publish`.
+```typescript
+import { SegmentsModule } from '@ionic-collection/segments';
 
-## Running unit tests
+@NgModule({
+  ...imports: [
+    ...
+    SegmentsModule
+    ...
+  ]
+})
+export class MyModule { ... }
+```
 
-Run `ng test segments` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Use in component:
 
-## Further help
+```typescript
+import { Segments } from '@ionic-collection/segments';
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+@Component({
+  template: `
+    <ionic-segments [segments]="segments"></ionic-segments>
+  `,
+  ...
+})
+export class MyComponent {
+  ...
+  segments: Segments = [{ text: 'My segment text', value: 'my-segment-text' }];
+  ...
+}
+```
+
+`ionic-segments` takes following input properties:
+
+`segments` is an array of objects. Each object has 2 properties: `text` is the text to be shown on segment button and `value` is the value that will be sent back on click.
+
+`defaultSelectedIndex` is the index of item you want to select when `ionic-segments` is first shown.
+
+`mode` can be `ios` or `md`.
+
+`scrollable` can be `true` or `false`. If you have long list of segments buttons you will want to make it scrollable.
+
+`ionic-segments` emits `selectedSegmentChange` when any `segment` is clicked. The emitted event contains the `value` of the segment.
