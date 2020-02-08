@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } f
     <ion-list>
       <ionic-accordion-header
         (headerClicked)="__show = !__show"
-        [iconName]="'arrow-' + (__show ? 'up' : 'down')"
+        [iconName]="__show ? ionIconExpand : ionIconCollapse"
         [show]="__show"
         [title]="title"
         [iconMode]="collapseIconMode"
@@ -24,10 +24,11 @@ export class AccordionComponent implements OnChanges {
   @Input() title: string;
   @Input() defaultShow: boolean;
   @Input() collapseIconMode: 'ios' | 'md';
-
+  @Input() ionIconExpand?: string = 'arrow-up';
+  @Input() ionIconCollapse?: string = 'arrow-down';
   // tslint:disable-next-line: variable-name
   __show: boolean;
-  constructor() {}
+  constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!(changes.defaultShow && changes.defaultShow.isFirstChange)) {
