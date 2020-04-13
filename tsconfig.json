@@ -36,6 +36,12 @@
       ],
       "accordion/*": [
         "dist/accordion/*"
+      ],
+      "timepicker": [
+        "dist/timepicker"
+      ],
+      "timepicker/*": [
+        "dist/timepicker/*"
       ]
     }
   },
