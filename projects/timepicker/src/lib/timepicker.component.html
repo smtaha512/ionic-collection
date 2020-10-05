@@ -1,5 +1,5 @@
 <ion-grid class="ion-no-padding">
-  <ionic-timepicker-title *ngIf="title" [title]="title"></ionic-timepicker-title>
+  <ionic-timepicker-title *ngIf="title" [title]="title === true ? (time | timeToTitle) : title"></ionic-timepicker-title>
   <!-- timepicker row -->
   <ion-row>
     <ion-col offset="1" size="10">
@@ -10,19 +10,24 @@
             <ion-grid class="ion-no-padding">
               <ion-row>
                 <ion-col size="12" class="d-flex ion-justify-content-center">
-                  <ion-button fill="none">
+                  <ion-button fill="none" (click)="updateTime('HH', '+')">
                     <ion-icon slot="icon-only" name="arrow-up"></ion-icon>
                   </ion-button>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col size="12" class="d-flex ion-justify-content-center">
-                  <input type="number" placeholder="HH" class="box-sizing center input-box-size border border-radius" />
+                  <input
+                    [(ngModel)]="time.HH"
+                    type="number"
+                    placeholder="HH"
+                    class="box-sizing center input-box-size border border-radius"
+                  />
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col size="12" class="d-flex ion-justify-content-center">
-                  <ion-button fill="none">
+                  <ion-button fill="none" (click)="updateTime('HH', '-')">
                     <ion-icon slot="icon-only" name="arrow-down"></ion-icon>
                   </ion-button>
                 </ion-col>
@@ -46,19 +51,24 @@
             <ion-grid class="ion-no-padding">
               <ion-row>
                 <ion-col size="12" class="d-flex ion-justify-content-center">
-                  <ion-button fill="none">
+                  <ion-button fill="none" (click)="updateTime('MM', '+')">
                     <ion-icon slot="icon-only" name="arrow-up"></ion-icon>
                   </ion-button>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col size="12" class="d-flex ion-justify-content-center">
-                  <input type="number" placeholder="MM" class="box-sizing center input-box-size border border-radius" />
+                  <input
+                    [(ngModel)]="time.MM"
+                    type="number"
+                    placeholder="MM"
+                    class="box-sizing center input-box-size border border-radius"
+                  />
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col size="12" class="d-flex ion-justify-content-center">
-                  <ion-button fill="none">
+                  <ion-button fill="none" (click)="updateTime('MM', '-')">
                     <ion-icon slot="icon-only" name="arrow-down"></ion-icon>
                   </ion-button>
                 </ion-col>

@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { TimepickerService } from './timepicker.service';
 
 @Component({
   selector: 'ionic-timepicker',
@@ -9,45 +10,91 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Input } 
 })
 export class TimepickerComponent implements OnInit {
   /** Set it to change increment factor for hours */
-  @Input() hourStep: number;
+  @Input() set hourStep(step: number) {
+    if (step < 1) {
+      throw new Error('Hour Step can not be less than 1');
+    }
+    this.step.HH = step;
+  }
   /** Set it to change increment factor for minutes */
-  @Input() minuteStep: number;
-  /** Set it to change increment factor for secondss */
+  @Input() set minuteStep(step: number) {
+    if (step < 1) {
+      throw new Error('Minute Step can not be less than 1');
+    }
+    this.step.MM = step;
+  }
+  /** TODO: Set it to change increment factor for secondss */
   @Input() secondsStep: number;
-  /** Set it to true to disable the controls */
+  /** TODO: Set it to true to disable the controls */
   @Input() readonlyInput = false;
-  /** Set it to true to disable the controls */
+  /** TODO:  Set it to true to disable the controls */
   @Input() disable = false;
-  /** Set it to true to change time using scroll inside the input */
+  /** TODO: Set it to true to change time using scroll inside the input */
   @Input() mousewheel: boolean;
-  /** Set it to true to change time using keyboard arrow keys */
+  /** TODO: Set it to true to change time using keyboard arrow keys */
   @Input() arrowkeys: boolean;
-  /** Set it to true to show arrows above and below the input fields */
+  /** TODO: Set it to true to show arrows above and below the input fields */
   @Input() showSpinners: boolean;
-  /** Set it to true to meridian(AM/PM) button */
+  /** TODO: Set it to true to meridian(AM/PM) button */
   @Input() showMeridian: boolean;
-  /** Set it to true to minutes input field */
+  /** TODO: Set it to true to minutes input field */
   @Input() showMinutes: boolean;
-  /** Set it to true to seconds input field */
+  /** TODO: Set it to true to seconds input field */
   @Input() showSeconds: boolean;
-  /** Provide locale based meridian labels for internationalization(i18n) */
+  /** TODO: Provide locale based meridian labels for internationalization(i18n) */
   @Input() meridians: string[];
   /** Minimum time user can select */
-  @Input() min: Date;
+  @Input() set min({ HH, MM }: { HH: number; MM: number }) {
+    this.limits.min.HH = HH ?? this.limits.min.HH;
+    this.limits.min.MM = MM ?? this.limits.min.MM;
+    this.time.HH = this.service.pad0(HH > this.time.HH ? HH : this.time.HH);
+    this.time.MM = this.service.pad0(MM > this.time.MM ? MM : this.time.MM);
+  }
   /** Maximum time user can select */
-  @Input() max: Date;
-  /** placeholder for hours field in timepicker */
+  @Input() set max({ HH, MM }: { HH: number; MM: number }) {
+    this.limits.max.HH = HH ?? this.limits.max.HH;
+    this.limits.max.MM = MM ?? this.limits.max.MM;
+    this.time.HH = this.service.pad0(HH < this.time.HH ? HH : this.time.HH);
+    this.time.MM = this.service.pad0(MM < this.time.MM ? MM : this.time.MM);
+  }
+  /** TODO: placeholder for hours field in timepicker */
   @Input() hoursPlaceholder: string;
-  /** placeholder for minutes field in timepicker */
+  /** TODO: placeholder for minutes field in timepicker */
   @Input() minutesPlaceholder: string;
-  /** placeholder for seconds field in timepicker */
+  /** TODO: placeholder for seconds field in timepicker */
   @Input() secondsPlaceholder: string;
-  /** Set to false to hide title. Set to true to show time. Set to string to show custom title */
+  /** TODO: Set to false to hide title. Set to true to show time. Set to string to show custom title */
   @Input() title: string | boolean = true;
-  /** Set to true/false to show/hide the buttons at bottom */
+  /** TODO: Set to true/false to show/hide the buttons at bottom */
   @Input() showFooterButtons = true;
 
-  constructor() {}
+  time: { HH: string | number; MM: string | number } = {
+    HH: new Date().getHours(),
+    MM: new Date().getMinutes(),
+  };
+  step = { HH: 1, MM: 1 };
+  limits = {
+    min: {
+      HH: 0,
+      MM: 0,
+    },
+    max: {
+      HH: 23,
+      MM: 59,
+    },
+  };
+
+  constructor(private readonly service: TimepickerService) {}
 
   ngOnInit() {}
+
+  updateTime(component: 'HH' | 'MM', direction: '+' | '-') {
+    const step = this.step[component];
+    const shouldIncrease = direction === '+';
+    const min = this.limits.min[component];
+    const max = this.limits.max[component];
+    const current = +this.time[component];
+
+    this.time = { ...this.time, [component]: this.service.updateTime({ current, min, max, step, shouldIncrease }) };
+  }
 }
