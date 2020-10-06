@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Limits, Time, TimepickerInterface } from '../timepicker.interface';
 import { TimepickerService } from './timepicker.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { TimepickerService } from './timepicker.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class TimepickerComponent implements OnInit {
+export class TimepickerComponent implements OnInit, TimepickerInterface {
   /** Set it to change increment factor for hours */
   @Input() set hourStep(step: number) {
     if (step < 1) {
@@ -68,12 +69,9 @@ export class TimepickerComponent implements OnInit {
   /** TODO: Set to true/false to show/hide the buttons at bottom */
   @Input() showFooterButtons = true;
 
-  time: { HH: string | number; MM: string | number } = {
-    HH: new Date().getHours(),
-    MM: new Date().getMinutes(),
-  };
+  time: Time = this.service.getCurrentTime();
   step = { HH: 1, MM: 1 };
-  limits = {
+  limits: Record<'min' | 'max', Limits> = {
     min: {
       HH: 0,
       MM: 0,

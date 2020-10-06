@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Time } from '../timepicker.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +39,12 @@ export class TimepickerService {
 
   public pad0(time: number | string) {
     return time.toString().padStart(2, '0');
+  }
+
+  public getCurrentTime(): Time {
+    return {
+      HH: this.pad0(new Date().getHours()),
+      MM: this.pad0(new Date().getMinutes()),
+    };
   }
 }
